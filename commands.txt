@@ -1,0 +1,6 @@
+python detect.py --weights .\weights\best.pt --img 416 --conf 0.5 --source .\test_imgs\
+
+use source 0 for webcam
+
+
+python detect.py --weights .\weights\best.pt --img 416 --conf 0.4 --source 0

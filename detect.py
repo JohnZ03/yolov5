@@ -118,7 +118,10 @@ def detect(save_img=False):
             # Stream results
             if view_img:
                 cv2.imshow(str(p), im0)
-                cv2.waitKey(1)  # 1 millisecond
+                key = cv2.waitKey(1)  # 1 millisecond
+                if key == ord("q"):
+                    cv2.destroyAllWindows()
+                    break
 
             # Save results (image with detections)
             if save_img:
