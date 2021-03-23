@@ -18,11 +18,6 @@ from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
 
-# GVIS
-GVIS = GestureEvent()
-
-
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--weights', nargs='+', type=str, default='./weights/best.pt', help='model.pt path(s)')
 parser.add_argument('--source', type=str, default='0', help='source')  # file/folder, 0 for webcam
@@ -47,7 +42,11 @@ check_requirements()
 
 
 
-def detect(save_img=False):
+def detect(save_img=False, queue=None):
+    # GVIS
+    # GVIS = GestureEvent()
+    GVIS = queue.get()
+
     source, weights, view_img, save_txt, imgsz = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
         ('rtsp://', 'rtmp://', 'http://'))
@@ -115,6 +114,9 @@ def detect(save_img=False):
         for i, det in enumerate(pred):  # detections per image
             if webcam:  # batch_size >= 1
                 p, s, im0, frame = path[i], '%g: ' % i, im0s[i].copy(), dataset.count
+                GVIS.frame_ready = False
+                GVIS.frame = im0
+                GVIS.frame_ready = True
             else:
                 p, s, im0, frame = path, '', im0s, getattr(dataset, 'frame', 0)
 
@@ -165,9 +167,9 @@ def detect(save_img=False):
             if view_img:
                 cv2.imshow(str(p), im0)
                 key = cv2.waitKey(1)  # 1 millisecond
-                if key == ord("q"):
-                    cv2.destroyAllWindows()
-                    break
+                # if key == ord('q'):
+                #     cv2.destroyAllWindows()
+                #     break
 
             # Save results (image with detections)
             if save_img:

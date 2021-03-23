@@ -16,6 +16,8 @@ class GestureEvent:
         self.hand_count = 0
         self.center_line = cam_x_size/2
         self.exit_check = 0
+        self.frame = None
+        self.frame_ready = False
         
 
     def __del__(self):
