@@ -1,4 +1,5 @@
 from multiprocessing import Process
+from gesture_event import *
 
 import argparse
 import time
@@ -15,6 +16,10 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
     scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
+
+
+# GVIS
+GVIS = GestureEvent()
 
 
 
@@ -118,6 +123,7 @@ def detect(save_img=False):
             txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
             s += '%gx%g ' % img.shape[2:]  # print string
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
+            print(len(det), end='   ')
             if len(det):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
@@ -138,7 +144,20 @@ def detect(save_img=False):
                     if save_img or view_img:  # Add bbox to image
                         label = f'{names[int(cls)]} {conf:.2f}'
                         plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=3)
+                        # print(((int(xyxy[0])+int(xyxy[2]))/2, (int(xyxy[1])+int(xyxy[3]))/2), end='    ')
 
+                        # GVIS
+                        GVIS.update(len(det), xyxy, int(cls))
+
+            # if no gesture found
+            else:
+                GVIS.no_detect()
+
+            # debug
+            cv2.line(im0, (round(GVIS.center_line), 0), (round(GVIS.center_line), 512), (0, 255, 0), thickness=2)
+
+            # Print positions
+            GVIS.output()
             # Print time (inference + NMS)
             print(f'{s}Done. ({t2 - t1:.3f}s)')
 
