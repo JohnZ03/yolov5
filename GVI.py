@@ -268,7 +268,7 @@ def mouse_look_callback(window, x_pos, y_pos):
     last_x = x_pos
     last_y = y_pos
 
-    camera.process_mouse_movement(x_offset, y_offset, False)
+    camera.process_mouse_movement(x_offset, y_offset, True) # limit mouse range
 
 # this function will be called everytime the mouse is entered the window or leave the window
 def mouse_enter_callback(window, entered):
@@ -871,7 +871,7 @@ for path, img, im0s, vid_cap in dataset:
 
         if clicked == False:
             clicked = True
-            mouse.press(Button.left)
+            # todo mouse.press(Button.left)
             
         # finger close gesture
         x,y,w,h=cv2.boundingRect(conts[0])

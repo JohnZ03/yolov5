@@ -10,12 +10,14 @@ class GestureEvent:
     def __init__(self):
         self.event_resolved = False
         self.hand_R = GestureObject((-1,-1,-1,-1), 0)
-        self.hand_L = GestureObject((-1,-1,-1,-1), 1024)
+        self.hand_L = GestureObject((-1,-1,-1,-1), cam_x_size)
         self.R_lost_track = 0
         self.L_lost_track = 0
         self.hand_count = 0
         self.center_line = cam_x_size/2
         self.exit_check = 0
+        self.cam_move_left = False
+        self.cam_move_right = False
         
 
     def __del__(self):
@@ -40,6 +42,7 @@ class GestureEvent:
                     self.hand_R.lost()
             
             # update centerline
+            # todo fix centerline
             self.center_line = (self.hand_L.cx + self.hand_R.cx)/2
 
             # check for quit
@@ -49,6 +52,23 @@ class GestureEvent:
             else:
                 if self.exit_check > 0:
                     self.exit_check -= 1
+
+            # check for cam movement
+            if number_of_gestures == 2:
+                if self.hand_L.gesture_type == 0 and self.hand_R.gesture_type == 1:
+                    #move left
+                    self.cam_move_left = True
+                    self.cam_move_right = False
+                elif self.hand_L.gesture_type == 1 and self.hand_R.gesture_type == 0:
+                    #move right
+                    self.cam_move_left = False
+                    self.cam_move_right = True
+                else:
+                    self.cam_move_left = False
+                    self.cam_move_right = False
+            else:
+                self.cam_move_left = False
+                self.cam_move_right = False
 
 
     def output(self):
