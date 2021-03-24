@@ -181,7 +181,7 @@ class ObjectLoader:
 class Camera:
     def __init__(self):
         # camera attributes
-        self.camera_position = pyrr.Vector3([0.0, 0.0, 10.0]) # where is camera located
+        self.camera_position = pyrr.Vector3([0.0, 0.0, 3.0]) # where is camera located
         self.camera_front = pyrr.Vector3([0.0, 0.0, -1.0]) # the direction of where camera looks
         self.camera_up = pyrr.Vector3([0.0, 1.0, 0.0])
         self.camera_right = pyrr.Vector3([1.0, 0.0, 0.0])
@@ -214,16 +214,9 @@ class Camera:
     # process keyboard press action
     def process_keyboard(self, direction, velocity):
         if direction == "FORWARD":
-            if self.camera_position.z <= 3:
-                self.camera_position += self.camera_front * 0
-            else:
-                self.camera_position += self.camera_front * velocity
-                
+            self.camera_position += self.camera_front * velocity
         if direction == "BACKWARD":
-            if self.camera_position.z >= 30:
-                self.camera_position -= self.camera_front * 0
-            else:
-                self.camera_position -= self.camera_front * velocity
+            self.camera_position -= self.camera_front * velocity
         if direction == "LEFT":
             self.camera_position -= self.camera_right * velocity
         if direction == "RIGHT":
@@ -278,7 +271,7 @@ def mouse_look_callback(window, x_pos, y_pos):
     last_x = x_pos
     last_y = y_pos
 
-    camera.process_mouse_movement(x_offset, y_offset, True) # limit mouse range
+    camera.process_mouse_movement(x_offset, y_offset, True)
 
 # this function will be called everytime the mouse is entered the window or leave the window
 def mouse_enter_callback(window, entered):
@@ -331,7 +324,7 @@ def do_movement():
 def resize_window(window, width, height):
     glViewport(0, 0, width, height)
     # generate a new projection matrix everytime window is resized
-    projection = pyrr.matrix44.create_perspective_projection_matrix(45, width/height, 0.1, 10000)
+    projection = pyrr.matrix44.create_perspective_projection_matrix(45, width/height, 0.1, 100)
     # pass the matrix to shader
     glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection)
 
@@ -604,7 +597,7 @@ glEnable(GL_BLEND)
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 # projection matrix
-projection = pyrr.matrix44.create_perspective_projection_matrix(45, WIDTH/HEIGHT, 0.1, 10000)
+projection = pyrr.matrix44.create_perspective_projection_matrix(45, WIDTH/HEIGHT, 0.1, 1000)
 # tanslation matrix for 3d object's postion
 earth_position = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 0, -8]))
 #moon_position = pyrr.matrix44.create_from_translation(pyrr.Vector3([50, 0, -20]))
@@ -883,7 +876,7 @@ for path, img, im0s, vid_cap in dataset:
 
         if clicked == False:
             clicked = True
-            # todo mouse.press(Button.left)
+            #mouse.press(Button.left)
             
         # finger close gesture
         x,y,w,h=cv2.boundingRect(conts[0])
