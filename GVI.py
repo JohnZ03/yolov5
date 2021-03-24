@@ -369,12 +369,12 @@ upperLimit = hsvGreen[0][0][0] + 10, 255, 255
 # color detection setup
 #===================================================================
 """ John """
-#lowerLimit = np.array([21,68,68])
-#upperLimit = np.array([41,255,255])
+lowerLimit = np.array([21,68,68])
+upperLimit = np.array([41,255,255])
 #===================================================================
 """ Steven """
-lowerLimit = np.array([20,50,120])
-upperLimit = np.array([100,255,255])
+# lowerLimit = np.array([20,50,120])
+# upperLimit = np.array([100,255,255])
 #===================================================================
 """ Wanga """
 # lowerLimit = np.array([20,50,120])
@@ -785,7 +785,7 @@ for path, img, im0s, vid_cap in dataset:
 
         # Stream results
         if view_img:
-            cv2.imshow(str(p), im0)
+            cv2.imshow(str(p), cv2.flip(im0, 1))
             key = cv2.waitKey(1)  # 1 millisecond
             if key == ord("q"):
                 cv2.destroyAllWindows()
@@ -830,17 +830,19 @@ for path, img, im0s, vid_cap in dataset:
     # draw all contours in an image
     #cv2.drawContours(img, conts, -1, (255, 0, 0), 3)
 
+
     # moving leftward if left hand is g0 and right hand is g1
     if GVIS.cam_move_left == True:
         left = True
     else:
         left = False
 
-    # moving rightward if left hand is g1 and right hand is g0
+    # moving rightward if left hand is g0 and right hand is g1
     if GVIS.cam_move_right == True:
         right = True
     else:
         right = False
+
 
     # if there are two contours captured
     if len(conts) == 2:
@@ -886,7 +888,6 @@ for path, img, im0s, vid_cap in dataset:
             backward = True
         else:
             backward = False
-
 
         # draw line between two fingers
         cv2.line(img_c, (cx1, cy1), (cx2, cy2), (0, 0, 255), 2)
@@ -934,7 +935,7 @@ for path, img, im0s, vid_cap in dataset:
         while mouse.position != mouseLoc:
             pass
     
-    cv2.imshow("capture", img_c)
+    cv2.imshow("capture", cv2.flip(img_c, 1))
     cv2.moveWindow("capture", 10, 10)
     #cv2.imshow("mask", mask)
     #cv2.imshow("maskOpen", maskOpen)

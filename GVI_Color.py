@@ -345,12 +345,12 @@ upperLimit = hsvGreen[0][0][0] + 10, 255, 255
 # color detection setup
 #===================================================================
 """ John """
-#lowerLimit = np.array([21,68,68])
-#upperLimit = np.array([41,255,255])
+lowerLimit = np.array([21,68,68])
+upperLimit = np.array([41,255,255])
 #===================================================================
 """ Steven """
-lowerLimit = np.array([20,50,120])
-upperLimit = np.array([100,255,255])
+# lowerLimit = np.array([20,50,120])
+# upperLimit = np.array([100,255,255])
 #===================================================================
 """ Wanga """
 # lowerLimit = np.array([20,50,120])
@@ -717,7 +717,7 @@ while not glfw.window_should_close(window):
 
         if clicked == False:
             clicked = True
-            mouse.press(Button.left)
+            # mouse.press(Button.left)
             
         # finger close gesture
         x,y,w,h=cv2.boundingRect(conts[0])
@@ -743,7 +743,7 @@ while not glfw.window_should_close(window):
         while mouse.position != mouseLoc:
             pass
     
-    cv2.imshow("capture", img)
+    cv2.imshow("capture", cv2.flip(img, 1))
     cv2.moveWindow("capture", 10, 10)
     #cv2.imshow("mask", mask)
     #cv2.imshow("maskOpen", maskOpen)

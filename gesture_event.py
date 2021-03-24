@@ -1,6 +1,6 @@
 from math import sqrt
 
-cam_x_size = 600
+cam_x_size = 1024
 cam_y_size = 512
 lost_thresh = 3
 
