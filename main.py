@@ -4,6 +4,8 @@ import os
 
 root = Tk()
 
+root.title("GVIS")
+
 # resize root window
 root.geometry("500x500")
 
@@ -24,7 +26,7 @@ my_button.pack(pady=20)
 my_label = Label(root, text="")
 my_label.pack(pady=20)
 
-my_button = Button(root, text="Enable gesture control (Color detection only)", command=enable_gesture_control_level_1)
+my_button = Button(root, text="Enable gesture control (Color detection)", command=enable_gesture_control_level_1)
 my_button.pack(pady=10)
 my_label = Label(root, text="")
 my_label.pack(pady=20)
