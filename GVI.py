@@ -364,10 +364,21 @@ lowerLimit = hsvGreen[0][0][0] - 10, 100, 100
 upperLimit = hsvGreen[0][0][0] + 10, 255, 255
 #lowerLimit = np.array(lowerLimit)
 #upperLimit = np.array(upperLimit)
-# lowerLimit = np.array([21,68,68])
-# upperLimit = np.array([41,255,255])
+
+# color detection setup
+#===================================================================
+""" John """
+#lowerLimit = np.array([21,68,68])
+#upperLimit = np.array([41,255,255])
+#===================================================================
+""" Steven """
 lowerLimit = np.array([20,50,120])
 upperLimit = np.array([100,255,255])
+#===================================================================
+""" Wanga """
+# lowerLimit = np.array([20,50,120])
+# upperLimit = np.array([100,255,255])
+#===================================================================
 
 # initialize camera object
 # todo
