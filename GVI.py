@@ -875,6 +875,18 @@ for path, img, im0s, vid_cap in dataset:
         else:
             backward = False
 
+        # moving leftward if left hand is g0 and right hand is g1
+        if GVIS.cam_move_left == True:
+            left = True
+        else:
+            left = False
+
+        # moving leftward if left hand is g0 and right hand is g1
+        if GVIS.cam_move_right == True:
+            right = True
+        else:
+            right = False
+
         # draw line between two fingers
         cv2.line(img_c, (cx1, cy1), (cx2, cy2), (0, 0, 255), 2)
         # draw circle to the mid point
